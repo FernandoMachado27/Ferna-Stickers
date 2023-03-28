@@ -30,10 +30,10 @@ public class App {
 		// exibir e manipular os dados
 		
 		for (Map<String, String> filme : listaDeFilmesList) {
-			System.out.println(filme.get("title"));
-			System.out.println(filme.get("rank"));
-			System.out.println(filme.get("year"));
-			System.out.println();
+			System.out.println("\u001b[1mTitulo:\u001b[m " + filme.get("title")); 
+			System.out.println("\u001b[1mRank:\u001b[m " + filme.get("rank"));
+			System.out.println("\u001b[1mNota:\u001b[m " + filme.get("imDbRating"));
+			System.out.println("");
 		}
 	}
 
