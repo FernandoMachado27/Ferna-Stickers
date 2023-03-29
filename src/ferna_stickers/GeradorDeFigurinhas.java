@@ -2,7 +2,9 @@ package ferna_stickers;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -40,7 +42,13 @@ public class GeradorDeFigurinhas {
 		
 		// escrever uma frase na nova imagem
 		
-		graphics.drawString("TOPZAO", 100, novaAltura - 100);
+		String texto = "TOPZAO";
+		FontMetrics fontMetrics = graphics.getFontMetrics();
+		Rectangle2D retangulo = fontMetrics.getStringBounds(texto, graphics);
+		int larguraTexto = (int) retangulo.getWidth();
+		int posicaoTextoX = (largura - larguraTexto)/2; // 4 linhas para centralizar o texto
+		
+		graphics.drawString(texto, posicaoTextoX, novaAltura - 100); // escrever o texto
 		
 		// escrever a nova imagem em um arquivo
 		
