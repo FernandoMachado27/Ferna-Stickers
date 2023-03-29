@@ -1,9 +1,14 @@
 package ferna_stickers;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -47,8 +52,23 @@ public class GeradorDeFigurinhas {
 		Rectangle2D retangulo = fontMetrics.getStringBounds(texto, graphics);
 		int larguraTexto = (int) retangulo.getWidth();
 		int posicaoTextoX = (largura - larguraTexto)/2; // 4 linhas para centralizar o texto
+		int posicaoTextoY = novaAltura - 100;
+		graphics.drawString(texto, posicaoTextoX, posicaoTextoY); // escrever o texto
 		
-		graphics.drawString(texto, posicaoTextoX, novaAltura - 100); // escrever o texto
+		FontRenderContext fontRenderContext = graphics.getFontRenderContext();
+		var textLayout = new TextLayout(texto, fonte, fontRenderContext);
+		
+		Shape outline = textLayout.getOutline(null);
+		AffineTransform transform = graphics.getTransform();
+		transform.translate(posicaoTextoX, posicaoTextoY);
+		graphics.setTransform(transform);
+		
+		var outlineStroke = new BasicStroke(largura * 0.004f);
+		graphics.setStroke(outlineStroke);
+		
+		graphics.setColor(Color.black);
+		graphics.draw(outline);
+		graphics.setClip(outline); // 11 linhas para o contorno da palavra
 		
 		// escrever a nova imagem em um arquivo
 		
