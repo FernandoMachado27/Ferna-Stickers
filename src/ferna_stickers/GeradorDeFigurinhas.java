@@ -44,7 +44,7 @@ public class GeradorDeFigurinhas {
 		
 		// escrever a nova imagem em um arquivo
 		
-		ImageIO.write(novaImagem, "png", new File("saida/" + nomeArquivo));
+		ImageIO.write(novaImagem, "png", new File(nomeArquivo));
 		
 	}
 

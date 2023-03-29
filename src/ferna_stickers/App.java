@@ -1,5 +1,6 @@
 package ferna_stickers;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -26,18 +27,23 @@ public class App {
 		// extrair só os dados interessantes (titulo, poster, classificação)
 		
 		var parser = new JsonParser();
-		List<Map<String, String>> listaDeFilmesList = parser.parse(body);
+		List<Map<String, String>> listaDeFilmes = parser.parse(body);
 		
 		// exibir e manipular os dados
 		
+		var diretorio = new File("figurinhas/");
+		diretorio.mkdir(); // cria o diretório se não existir
+		
 		var gerador = new GeradorDeFigurinhas();
-		for (Map<String, String> filme : listaDeFilmesList) {
+		for (int index = 0; index < 5; index++) {
+			var filme = listaDeFilmes.get(index);
+			
 			String urlImagem = filme.get("image");
 			String titulo = filme.get("title");
 			
 			InputStream inputStream = new URL(urlImagem).openStream();
 			
-			String nomeDoArquivo = titulo + ".png";
+			String nomeDoArquivo = "figurinhas/" + titulo + ".png";
 			
 			gerador.cria(inputStream, nomeDoArquivo);
 			
