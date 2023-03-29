@@ -36,7 +36,7 @@ public class GeradorDeFigurinhas {
 		
 		// configurar a fonte
 		
-		var fonte = new Font(Font.SANS_SERIF, Font.BOLD, 64); // fonte, estilo, tamanho
+		var fonte = new Font("Impact", Font.BOLD, 80); // fonte, estilo, tamanho
 		graphics.setColor(Color.YELLOW);
 		graphics.setFont(fonte);
 		
