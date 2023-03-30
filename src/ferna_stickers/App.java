@@ -2,12 +2,7 @@ package ferna_stickers;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Map;
 
@@ -17,18 +12,18 @@ public class App {
 
 		// fazer uma conexão HTTP e buscar os top 250 filmes
 		
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-//		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json";
-		URI endereco = URI.create(url); // endereco
-		var client = HttpClient.newHttpClient(); // cliente
-		var request = HttpRequest.newBuilder(endereco).GET().build(); // request
-		HttpResponse<String> response = client.send(request, BodyHandlers.ofString()); // response vai ser retornada String
-		String body = response.body();
+//		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
+//		ExtratorDeConteudo extrator = new ExtratorDeConteudoDoIMDB();
+		
+		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json";
+		ExtratorDeConteudo extrator = new ExtratorDeConteudoDaNasa();
+		
+		var http = new ClienteHttp();
+		String json = http.buscaDados(url);
 		
 		// extrair só os dados interessantes (titulo, poster, classificação)
 		
-		var parser = new JsonParser();
-		List<Map<String, String>> listaDeFilmes = parser.parse(body);
+		List<Conteudo> conteudos = extrator.extraiConteudos(json);
 		
 		// exibir e manipular os dados
 		
@@ -36,27 +31,16 @@ public class App {
 		diretorio.mkdir(); // cria o diretório se não existir
 		
 		var gerador = new GeradorDeFigurinhas();
-		for (int index = 0; index < 3; index++) {
-			var filme = listaDeFilmes.get(index);
+		for (int i = 0; i < 3; i++) {
+			Conteudo conteudo = conteudos.get(i);
 			
-			String urlImagem = filme.get("image");
-			String titulo = filme.get("title");
-			double classificacao = Double.parseDouble(filme.get("imDbRating"));
-			
-			String textoFigurinha;
-			if (classificacao >= 8.0) {
-				textoFigurinha = "TOPZAO";
-			} else {
-				textoFigurinha = "HMMMM...";
-			}
-			
-			InputStream inputStream = new URL(urlImagem).openStream();
-			
-			String nomeDoArquivo = "figurinhas/" + titulo + ".png";
+			String textoFigurinha = "TOPZAO";
+			InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
+			String nomeDoArquivo = "figurinhas/" + conteudo.getTitulo() + ".png";
 			
 			gerador.cria(inputStream, nomeDoArquivo, textoFigurinha);
 			
-			System.out.println("\u001b[1mTitulo:\u001b[m " + titulo); 
+			System.out.println("\u001b[1mTitulo:\u001b[m " + conteudo.getTitulo()); 
 			System.out.println("");
 		}
 	}
