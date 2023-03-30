@@ -35,12 +35,12 @@ public class App {
 			Conteudo conteudo = conteudos.get(i);
 			
 			String textoFigurinha = "TOPZAO";
-			InputStream inputStream = new URL(conteudo.getUrlImagem()).openStream();
-			String nomeDoArquivo = "figurinhas/" + conteudo.getTitulo() + ".png";
+			InputStream inputStream = new URL(conteudo.urlImagem()).openStream();
+			String nomeDoArquivo = "figurinhas/" + conteudo.titulo() + ".png";
 			
 			gerador.cria(inputStream, nomeDoArquivo, textoFigurinha);
 			
-			System.out.println("\u001b[1mTitulo:\u001b[m " + conteudo.getTitulo()); 
+			System.out.println("\u001b[1mTitulo:\u001b[m " + conteudo.titulo()); 
 			System.out.println("");
 		}
 	}
