@@ -12,11 +12,10 @@ public class App {
 
 		// fazer uma conexão HTTP e buscar os top 250 filmes
 		
-//		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-//		ExtratorDeConteudo extrator = new ExtratorDeConteudoDoIMDB();
+		API api = API.NASA;
+		String url = api.getUrl();
 		
-		String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json";
-		ExtratorDeConteudo extrator = new ExtratorDeConteudoDaNasa();
+		ExtratorDeConteudo extrator = api.getExtrator();
 		
 		var http = new ClienteHttp();
 		String json = http.buscaDados(url);
